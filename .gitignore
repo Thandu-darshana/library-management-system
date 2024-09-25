@@ -21,3 +21,74 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+
+# library-backend (Spring Boot) specific
+/library-backend/HELP.md
+/library-backend/target/
+/library-backend/!.mvn/wrapper/maven-wrapper.jar
+/library-backend/!**/src/main/**/target/
+/library-backend/!**/src/test/**/target/
+
+### STS (Spring Tool Suite) ###
+/library-backend/.apt_generated
+/library-backend/.classpath
+/library-backend/.factorypath
+/library-backend/.project
+/library-backend/.settings
+/library-backend/.springBeans
+/library-backend/.sts4-cache
+
+### IntelliJ IDEA ###
+/library-backend/.idea
+/library-backend/*.iws
+/library-backend/*.iml
+/library-backend/*.ipr
+
+### NetBeans ###
+/library-backend/nbproject/private/
+/library-backend/nbbuild/
+/library-backend/dist/
+/library-backend/nbdist/
+/library-backend/.nb-gradle/
+/library-backend/build/
+/library-backend/!**/src/main/**/build/
+/library-backend/!**/src/test/**/build/
+
+### VS Code ###
+/library-backend/.vscode/
