@@ -1,0 +1,10 @@
+1. User Management
+    View Members: Admins need the ability to view and manage all registered members of the e-library.
+    Add/Edit Member Information: Admins should be able to modify member profiles or update member statuses (e.g., activate/deactivate accounts).
+    Delete Members: If necessary, admins should be able to remove members from the system.
+    Member Activity Logs: A log showing the borrowing history and other interactions of members with the system.
+2. Book Management
+    Add New Books: Admins should have the ability to add new books to the system by entering details such as title, author, genre, ISBN, and availability status.
+    Edit Book Information: Admins should be able to update the information of existing books.
+    Delete Books: Admins must be able to remove books from the catalog when needed (e.g., outdated or lost books).
+    View Book Inventory: Display all books with their availability status (e.g., borrowed, available, reserved).
