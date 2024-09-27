@@ -18,14 +18,18 @@ public class AuthorServiceImplementation implements AuthorService{
     AuthorRepo authorRepo;
     @Override
     public ResponseEntity<Author> addAuthor(Author author) {
+        Optional<Author> existingAuthor = authorRepo.findByName(author.getName());
+        if (existingAuthor.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);  // Return conflict if author exists
+        }
         Author authorObj = authorRepo.save(author);
 
         return new ResponseEntity<>(authorObj,HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<Author> updateAuthorById(int id, Author newAuthorData) {
-        Optional<Author> oldAuthorData = authorRepo.findById(id);
+    public ResponseEntity<Author> updateAuthorById(Long author_id, Author newAuthorData) {
+        Optional<Author> oldAuthorData = authorRepo.findById(author_id);
         if(oldAuthorData.isPresent()){
             Author updatedAuthorData = oldAuthorData.get();
             updatedAuthorData.setName(newAuthorData.getName());
@@ -38,10 +42,10 @@ public class AuthorServiceImplementation implements AuthorService{
     }
 
     @Override
-    public ResponseEntity<HttpStatus> deleteAuthorById(int id) {
-        Optional<Author> author = authorRepo.findById(id);
+    public ResponseEntity<HttpStatus> deleteAuthorById(Long author_id) {
+        Optional<Author> author = authorRepo.findById(author_id);
         if (author.isPresent()) {
-            authorRepo.deleteById(id);
+            authorRepo.deleteById(author_id);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -63,8 +67,8 @@ public class AuthorServiceImplementation implements AuthorService{
     }
 
     @Override
-    public ResponseEntity<Author> getAuthorById(int id) {
-        Optional <Author> authorData = authorRepo.findById(id);
+    public ResponseEntity<Author> getAuthorById(Long author_id) {
+        Optional <Author> authorData = authorRepo.findById(author_id);
         if(authorData.isPresent()){
             return new ResponseEntity<>(authorData.get(),HttpStatus.OK);
         }

@@ -9,10 +9,10 @@ import java.util.List;
 @Service
 public interface BookService {
     public ResponseEntity<Book> addBook(Book book);
-    public ResponseEntity<Book> updateBookById(Long id, Book newBookData);
-    public ResponseEntity<HttpStatus> deleteBookById(Long id);
+    public ResponseEntity<Book> updateBookById(Long book_id, Book newBookData);
+    public ResponseEntity<HttpStatus> deleteBookById(Long book_id);
     public ResponseEntity<List<Book>> getAllBooks();
-    public ResponseEntity<Book> getBookById(Long id);
+    public ResponseEntity<Book> getBookById(Long book_id);
 
 
 }

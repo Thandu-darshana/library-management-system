@@ -21,15 +21,15 @@ public class BookController {
         return bookService.addBook(book);
     }
 
-    @PostMapping("/updateBookById/{id}")
-    public ResponseEntity<Book> updateBookById(@PathVariable Long id, @RequestBody Book newBookData) {
-        return bookService.updateBookById(id, newBookData);
+    @PostMapping("/updateBookById/{book_id}")
+    public ResponseEntity<Book> updateBookById(@PathVariable Long book_id, @RequestBody Book newBookData) {
+        return bookService.updateBookById(book_id, newBookData);
 
     }
 
-    @DeleteMapping("/deleteBookById/{id}")
-    public ResponseEntity<HttpStatus> deleteBookById(@PathVariable Long id) {
-        return bookService.deleteBookById(id);
+    @DeleteMapping("/deleteBookById/{book_id}")
+    public ResponseEntity<HttpStatus> deleteBookById(@PathVariable Long book_id) {
+        return bookService.deleteBookById(book_id);
     }
 
     @GetMapping("/getAllBooks")
@@ -37,9 +37,9 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    @GetMapping("/getBookById/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
-        return bookService.getBookById(id);
+    @GetMapping("/getBookById/{book_id}")
+    public ResponseEntity<Book> getBookById(@PathVariable Long book_id) {
+        return bookService.getBookById(book_id);
     }
 
 }

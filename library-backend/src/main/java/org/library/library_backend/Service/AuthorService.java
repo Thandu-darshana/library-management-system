@@ -10,9 +10,9 @@ import java.util.List;
 @Service
 public interface AuthorService {
     public ResponseEntity<Author> addAuthor(Author author);
-    public ResponseEntity<Author> updateAuthorById(int id, Author newAuthorData);
-    public ResponseEntity<HttpStatus> deleteAuthorById(int id);
+    public ResponseEntity<Author> updateAuthorById(Long id, Author newAuthorData);
+    public ResponseEntity<HttpStatus> deleteAuthorById(Long author_id);
     public ResponseEntity<List<Author>> getAllAuthors();
-    public ResponseEntity<Author> getAuthorById(int id);
+    public ResponseEntity<Author> getAuthorById(Long author_id);
 
 }
