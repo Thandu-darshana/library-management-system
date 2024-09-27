@@ -1,6 +1,6 @@
-package Repo;
+package org.library.library_backend.Repo;
 
-import Model.Book;
+import org.library.library_backend.Model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
