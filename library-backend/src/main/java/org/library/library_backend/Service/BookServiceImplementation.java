@@ -1,7 +1,11 @@
 package org.library.library_backend.Service;
 
+import org.library.library_backend.Model.Author;
 import org.library.library_backend.Model.Book;
+import org.library.library_backend.Model.Category;
+import org.library.library_backend.Repo.AuthorRepo;
 import org.library.library_backend.Repo.BookRepo;
+import org.library.library_backend.Repo.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,35 +13,86 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class BookServiceImplementation implements BookService {
     @Autowired
     BookRepo bookRepo;
+    @Autowired
+    AuthorRepo authorRepo;
+
+    @Autowired
+    CategoryRepo categoryRepo;
     @Override
     public ResponseEntity<Book> addBook(Book book) {
-        Book bookObj = bookRepo.save(book);
+        Author author = book.getAuthor();
+        Optional<Author> existingAuthor = authorRepo.findByName(author.getName());
 
-        return new ResponseEntity<>(bookObj,HttpStatus.CREATED);
+        if(!existingAuthor.isPresent()){
+            author = authorRepo.save(author);
+        }else{
+            author = existingAuthor.get();
+        }
+        book.setAuthor(author);
+
+        // Handle Category
+        Category category = book.getCategory();
+        Optional<Category> existingCategory = categoryRepo.findByName(category.getName());
+        if (!existingCategory.isPresent()) {
+            category = categoryRepo.save(category); // Save new category if not exists
+        } else {
+            category = existingCategory.get(); // Use existing category
+        }
+        book.setCategory(category);
+
+        // Save the book
+        Book bookObj = bookRepo.save(book);
+        return new ResponseEntity<>(bookObj, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<Book> updateBookById(Long id, Book newBookData) {
-        Optional<Book> oldbookData = bookRepo.findById(id);
+    public ResponseEntity<Book> updateBookById(Long book_id, Book newBookData) {
+        Optional<Book> oldbookData = bookRepo.findById(book_id);
         if(oldbookData.isPresent()){
             Book updatedBookData = oldbookData.get();
             updatedBookData.setTitle(newBookData.getTitle());
-            updatedBookData.setAuthor(newBookData.getAuthor());
 
+            Author newAuthor = newBookData.getAuthor();
+            Optional<Author> existingAuthor = authorRepo.findByName(newAuthor.getName());
+
+            if(!existingAuthor.isPresent()){
+                newAuthor = authorRepo.save(newAuthor);
+            }else{
+                newAuthor = existingAuthor.get();
+            }
+            updatedBookData.setAuthor(newAuthor);
+
+            // Update Category
+            Category newCategory = newBookData.getCategory();
+            Optional<Category> existingCategory = categoryRepo.findByName(newCategory.getName());
+            if (!existingCategory.isPresent()) {
+                newCategory = categoryRepo.save(newCategory); // Save new category if not exists
+            } else {
+                newCategory = existingCategory.get(); // Use existing category
+            }
+            updatedBookData.setCategory(newCategory);
+
+            // Update other fields
+            updatedBookData.setIsbn(newBookData.getIsbn());
+            updatedBookData.setAdded_on(newBookData.getAdded_on());
+            updatedBookData.setAvailable(newBookData.getAvailable());
+
+            // Save the updated book
             Book bookObj = bookRepo.save(updatedBookData);
-            return new ResponseEntity<>(bookObj,HttpStatus.OK);
+            return new ResponseEntity<>(bookObj, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
     @Override
-    public ResponseEntity<HttpStatus> deleteBookById(Long id) {
-            bookRepo.deleteById(id);
+    public ResponseEntity<HttpStatus> deleteBookById(Long book_id) {
+            bookRepo.deleteById(book_id);
             return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -57,8 +112,8 @@ public class BookServiceImplementation implements BookService {
             }
     }
     @Override
-    public ResponseEntity<Book> getBookById(Long id) {
-            Optional<Book> bookData = bookRepo.findById(id);
+    public ResponseEntity<Book> getBookById(Long book_id) {
+            Optional<Book> bookData = bookRepo.findById(book_id);
             if(bookData.isPresent()){
                 return new ResponseEntity<>(bookData.get(),HttpStatus.OK);
             }

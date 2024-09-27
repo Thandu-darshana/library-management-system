@@ -20,21 +20,21 @@ public class AuthorController {
     public ResponseEntity<Author> addAuthor(@RequestBody Author author){
         return authorService.addAuthor(author);
     }
-    @PostMapping("/UpdateAuthor/{id}")
-    public ResponseEntity<Author> updateAuthorById(@PathVariable int id,@RequestBody Author newAuthorData){
-        return authorService.updateAuthorById(id,newAuthorData);
+    @PostMapping("/UpdateAuthor/{author_id}")
+    public ResponseEntity<Author> updateAuthorById(@PathVariable Long author_id,@RequestBody Author newAuthorData){
+        return authorService.updateAuthorById(author_id,newAuthorData);
     }
-    @DeleteMapping("/deleteAuthorById/{id}")
-    public ResponseEntity<HttpStatus> deleteAuthorById(@PathVariable int id){
-        return authorService.deleteAuthorById(id);
+    @DeleteMapping("/deleteAuthorById/{author_id}")
+    public ResponseEntity<HttpStatus> deleteAuthorById(@PathVariable Long author_id){
+        return authorService.deleteAuthorById(author_id);
     }
     @GetMapping("/getAllAuthors")
     public ResponseEntity<List<Author>> getAllAuthors(){
         return authorService.getAllAuthors();
 
     }
-    @GetMapping("/getAuthorById/{id}")
-    public ResponseEntity<Author> getAuthorById(@PathVariable int id){
-        return authorService.getAuthorById(id);
+    @GetMapping("/getAuthorById/{author_id}")
+    public ResponseEntity<Author> getAuthorById(@PathVariable Long author_id){
+        return authorService.getAuthorById(author_id);
     }
 }
