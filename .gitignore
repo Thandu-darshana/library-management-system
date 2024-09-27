@@ -43,6 +43,7 @@ target/
 *.iws
 *.iml
 *.ipr
+library-backend/src/main/resources/application.properties
 
 ### NetBeans ###
 /nbproject/private/
