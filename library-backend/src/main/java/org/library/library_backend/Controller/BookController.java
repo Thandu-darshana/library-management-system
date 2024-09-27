@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/Books")
+@RequestMapping("/books")
 public class BookController {
 
     @Autowired
