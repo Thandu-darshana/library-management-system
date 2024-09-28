@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "Members")
@@ -26,4 +27,7 @@ public class Member {
     private String address;
     @Column(name = "registeredDate")
     private LocalDate registeredDate;
+
+    @OneToMany(mappedBy = "memberId")
+    private List<Fine> fines;
 }

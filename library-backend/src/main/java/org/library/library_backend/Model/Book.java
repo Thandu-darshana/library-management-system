@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Books")
@@ -37,6 +38,9 @@ public class Book {
 
     @Column(nullable = false)
     private int copies;
+
+    @OneToMany(mappedBy = "book")
+    private List<Fine> fines;
 
 
     public void setId(Long bookId) {
