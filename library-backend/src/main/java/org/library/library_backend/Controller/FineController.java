@@ -1,6 +1,6 @@
 package org.library.library_backend.Controller;
 
-import org.library.library_backend.Model.Author;
+
 import org.library.library_backend.Model.Book;
 import org.library.library_backend.Model.Category;
 import org.library.library_backend.Model.Fine;
@@ -18,14 +18,14 @@ public class FineController {
     @Autowired
     private FineService fineService;
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{memberId}")
     public ResponseEntity<List<Fine>> getAllFines(@PathVariable String memberId) {
-        return ResponseEntity.ok(fineService.getAllFinesForUser(memberId));
+        return ResponseEntity.ok(fineService.getAllFinesForMember(memberId));
     }
 
-    @GetMapping("/{userId}/unpaid")
+    @GetMapping("/{memberId}/unpaid")
     public ResponseEntity<List<Fine>> getUnpaidFines(@PathVariable String memberId) {
-        return ResponseEntity.ok(fineService.getUnpaidFinesForUser(memberId));
+        return ResponseEntity.ok(fineService.getUnpaidFinesForMember(memberId));
     }
 
     @PostMapping("/{fineId}/pay")
