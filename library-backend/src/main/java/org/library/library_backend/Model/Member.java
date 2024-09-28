@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Member {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long memberId;
     @Column(name = "memberName")
     private String memberName;

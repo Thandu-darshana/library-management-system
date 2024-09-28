@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long book_id;
     @Column(name = "title" ,nullable = false)
     private String title;
@@ -33,6 +32,9 @@ public class Book {
 
     @Column(nullable = false)
     private Boolean available;
+
+    @Column(nullable = false)
+    private int copies;
 
 
 
