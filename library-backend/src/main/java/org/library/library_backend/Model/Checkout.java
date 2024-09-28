@@ -18,24 +18,24 @@ public class Checkout {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long checkoutId;
     @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
+    @JoinColumn(name = "book_id")
     private Book book;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @Column(name = "borrowed_on", nullable = false)
     private LocalDate borrowedOn;
 
-    @Column(name = "due_date", nullable = false)
+
     private LocalDate dueDate;
 
     @Column(name = "returned_on")
     private LocalDate returnedOn;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private CheckoutStatus status;
 
 

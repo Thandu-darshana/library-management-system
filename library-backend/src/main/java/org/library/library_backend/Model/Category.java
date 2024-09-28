@@ -13,7 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Category {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long category_id;
 
+    @Column(name = "name")
     private String name;
 }

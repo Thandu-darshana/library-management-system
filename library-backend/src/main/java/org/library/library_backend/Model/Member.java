@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "Members")
 @Data
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Member {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long memberId;
     @Column(name = "memberName")
     private String memberName;
@@ -22,5 +25,5 @@ public class Member {
     @Column(name = "address")
     private String address;
     @Column(name = "registeredDate")
-    private String registeredDate;
+    private LocalDate registeredDate;
 }

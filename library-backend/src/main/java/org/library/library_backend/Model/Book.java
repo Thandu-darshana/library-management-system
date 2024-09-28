@@ -4,6 +4,7 @@ package org.library.library_backend.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Book {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long book_id;
     @Column(name = "title" ,nullable = false)
     private String title;
@@ -24,11 +26,11 @@ public class Book {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Column(nullable = false)
+    @Column(unique = true , nullable = false)
     private String isbn;
 
-    @Column(nullable = false)
-    private LocalDateTime added_on;
+    @Column
+    private LocalDate added_on;
 
     @Column(nullable = false)
     private Boolean available;
