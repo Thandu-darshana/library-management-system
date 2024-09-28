@@ -8,7 +8,7 @@ import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import AutoStoriesTwoToneIcon from '@mui/icons-material/AutoStoriesTwoTone';
 import BarChartIcon from '@mui/icons-material/BarChart';
-
+import DemoPageContent from './DemoPageContent';  // Import the DemoPageContent component
 
 const demoTheme = createTheme({
   cssVariables: {
@@ -26,30 +26,8 @@ const demoTheme = createTheme({
   },
 });
 
-function DemoPageContent({ pathname }) {
-  return (
-    <Box
-      sx={{
-        py: 4,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-      }}
-    >
-      <Typography>Dashboard content for {pathname}</Typography>
-    </Box>
-  );
-}
-
-DemoPageContent.propTypes = {
-  pathname: PropTypes.string.isRequired,
-};
-
-function DashboardLayoutNavigationNested(props) {
-  
-
-  const [pathname, setPathname] = React.useState('/movies/lord-of-the-rings');
+function DashboardLayoutNavigationNested() {
+  const [pathname, setPathname] = React.useState('/books/all-books');
 
   const router = React.useMemo(() => {
     return {
@@ -59,20 +37,14 @@ function DashboardLayoutNavigationNested(props) {
     };
   }, [pathname]);
 
-  
-
   return (
-    
-    // preview-start
     <AppProvider
-        branding={{
-            logo: <AutoStoriesTwoToneIcon fontSize="large" color="primary" sx={{ fontSize: 35 }} />,
-            title: 'Library Management System',
-            
-        }}
-        navigation={[
+      branding={{
+        logo: <AutoStoriesTwoToneIcon fontSize="large" color="primary" sx={{ fontSize: 35 }} />,
+        title: 'Library Management System',
+      }}
+      navigation={[
         {
-          
           segment: 'books',
           title: 'Books',
           children: [
@@ -86,7 +58,7 @@ function DashboardLayoutNavigationNested(props) {
             },
             {
               segment: 'borrowed-books',
-              title: 'Borowwed Books',
+              title: 'Borrowed Books',
             },
             {
               segment: 'add-books',
@@ -94,50 +66,82 @@ function DashboardLayoutNavigationNested(props) {
               icon: <AddBoxTwoToneIcon />,
             },
           ],
-          
         },
         {
-          segment: 'members',
-          title: 'Members',
+          segment: 'authors',
+          title: 'Authors',
           children: [
             {
-              segment: 'all-members',
-              title: 'All Members',
+              segment: 'all-authors',
+              title: 'All Authors',
             },
             {
-              segment: 'add-members',
-              title: 'Add Members',
+              segment: 'add-authors',
+              title: 'Add Author',
               icon: <AddBoxTwoToneIcon />,
             },
-          ]
+          ],
         },
         {
-            kind: 'divider',
-          },
-          {
-            kind: 'header',
-            title: 'Analytics',
-          },
-          {
-            segment: 'reports',
-            title: 'Reports',
-            icon: <BarChartIcon />,
-          }
-        
+          segment: 'category',
+          title: 'Category',
+          children: [
+            {
+              segment: 'choose-category',
+              title: 'Choose Category',
+            },
+          ],
+        },
+        {
+          segment: 'fine',
+          title: 'Fine',
+          children: [
+            {
+              segment: 'view-fines',
+              title: 'View Fines',
+            },
+            {
+              segment: 'paid-fines',
+              title: 'Paid Fines',
+            },
+          ],
+        },
+        {
+          segment: 'checkout',
+          title: 'Check Out',
+          children: [
+            {
+              segment: 'view-checkout',
+              title: 'View Checkout',
+            },
+            {
+              segment: 'add-checkout',
+              title: 'Add Checkout',
+              icon: <AddBoxTwoToneIcon />,
+            },
+          ],
+        },
+        {
+          kind: 'divider',
+        },
+        {
+          kind: 'header',
+          title: 'Analytics',
+        },
+        {
+          segment: 'reports',
+          title: 'Reports',
+          icon: <BarChartIcon />,
+        },
       ]}
       router={router}
       theme={demoTheme}
-      
     >
-      
-      
       <DashboardLayout>
-        <DemoPageContent pathname={pathname} />
+        <DemoPageContent pathname={router.pathname} />
       </DashboardLayout>
     </AppProvider>
-    // preview-end
   );
 }
-
 
 export default DashboardLayoutNavigationNested;
