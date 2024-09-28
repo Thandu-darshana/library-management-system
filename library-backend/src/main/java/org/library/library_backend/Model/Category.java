@@ -17,4 +17,7 @@ public class Category {
     private Long category_id;
 
     private String name;
+
+    public void setId(Long categoryId) {
+    }
 }

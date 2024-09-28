@@ -35,7 +35,6 @@ public class Book {
     private Boolean available;
 
 
-
-
-
+    public void setId(Long bookId) {
+    }
 }
