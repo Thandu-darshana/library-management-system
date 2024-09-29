@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface FineRepository extends JpaRepository<Fine, Long> {
 
-    List<Fine> findByUserIdAndIsPaidFalse(String memberId);
+    List<Fine> findByMemberIdAndIsPaidFalse(String memberId);
 
-    List<Fine> findByUserId(String userId);
+    List<Fine> findByMemberId(String memberId);
 
     List<Fine> findByBook(Book book);
 

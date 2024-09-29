@@ -16,12 +16,12 @@ public class FineService {
     @Autowired
     private FineRepository fineRepository;
 
-    public List<Fine> getAllFinesForUser(String memberId) {
-        return fineRepository.findByUserId(memberId);
+    public List<Fine> getAllFinesForMember(String memberId) {
+        return fineRepository.findByMemberId(memberId);
     }
 
-    public List<Fine> getUnpaidFinesForUser(String memberId) {
-        return fineRepository.findByUserIdAndIsPaidFalse(memberId);
+    public List<Fine> getUnpaidFinesForMember(String memberId) {
+        return fineRepository.findByMemberIdAndIsPaidFalse(memberId);
     }
 
     public Fine markFineAsPaid(Long fineId) throws Exception {
