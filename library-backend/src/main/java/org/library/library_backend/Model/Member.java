@@ -28,4 +28,7 @@ public class Member {
     @Column(name = "registeredDate")
     private LocalDate registeredDate;
 
+    @OneToMany(mappedBy = "member")
+    private List<Checkout> checkouts;
+
 }
