@@ -44,17 +44,17 @@ public class FineController {
         return ResponseEntity.ok(createdFine);
     }
 
-    @GetMapping("/book/{bookId}")
-    public ResponseEntity<List<Fine>> getFinesByBook(@PathVariable Long bookId) {
-        Book book = new Book();  // Assuming you fetch the book by ID
-        book.setId(bookId);
-        return ResponseEntity.ok(fineService.getFinesByBook(book));
-    }
+//    @GetMapping("/book/{bookId}")
+//    public ResponseEntity<List<Fine>> getFinesByBook(@PathVariable Long bookId) {
+//        Book book = new Book();  // Assuming you fetch the book by ID
+//        book.setId(bookId);
+//        return ResponseEntity.ok(fineService.getFinesByBook(book));
+//    }
 
     // Retrieve fines by category ID
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<Fine>> getFinesByCategory(@PathVariable Long categoryId) {
-        Category category = new Category();  // Assuming you fetch the category by ID
+        Category category = new Category(1L, "Fantasy");  // Assuming you fetch the category by ID
         category.setId(categoryId);
         return ResponseEntity.ok(fineService.getFinesByCategory(category));
     }

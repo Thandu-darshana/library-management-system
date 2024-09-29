@@ -28,6 +28,4 @@ public class Member {
     @Column(name = "registeredDate")
     private LocalDate registeredDate;
 
-    @OneToMany(mappedBy = "memberId")
-    private List<Fine> fines;
 }
