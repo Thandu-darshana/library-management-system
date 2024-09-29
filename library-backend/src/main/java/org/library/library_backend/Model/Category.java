@@ -24,6 +24,10 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Fine> fines;
 
+    public Category(long category_id, String Category) {
+    }
+
+
     public void setId(Long categoryId) {
     }
 }
