@@ -10,6 +10,10 @@ import AutoStoriesTwoToneIcon from '@mui/icons-material/AutoStoriesTwoTone';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import DemoPageContent from './DemoPageContent';  // Import the DemoPageContent component
 
+
+import AllBooks from './AllBooks';
+;
+
 const demoTheme = createTheme({
   cssVariables: {
     colorSchemeSelector: 'data-toolpad-color-scheme',
@@ -28,6 +32,22 @@ const demoTheme = createTheme({
 
 function DashboardLayoutNavigationNested() {
   const [pathname, setPathname] = React.useState('/books/all-books');
+
+  const renderPageContent = () => {
+    switch (pathname) {
+      case '/books/all-books':
+        return <AllBooks />;
+      // case '/books/available-books':
+      //   return <AvailableBooks />;
+      // case '/books/borrowed-books':
+      //   return <BorrowedBooks />;
+      // case '/books/add-books':
+      //   return <AddBook />;
+      // Add other cases for authors, categories, etc.
+      default:
+        return <div>Select a page</div>;
+    }
+  };
 
   const router = React.useMemo(() => {
     return {
