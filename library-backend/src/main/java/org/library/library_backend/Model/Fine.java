@@ -18,27 +18,17 @@ public class Fine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "member_id", nullable = false)
-    private String memberId;
-
-    @Column(nullable = false)
+    @Column(name = "amount", nullable = false)
     private Double amount;
 
-    @Column(nullable = false)
+    @Column(name = "issue_date", nullable = false)
     private LocalDate issueDate;
 
-    @Column(nullable = false)
+    @Column(name = "is_paid", nullable = false)
     private boolean isPaid;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
-
-
-
+    @JoinColumn(name = "checkout_id", nullable = false)
+    private Checkout checkout;
 }
-

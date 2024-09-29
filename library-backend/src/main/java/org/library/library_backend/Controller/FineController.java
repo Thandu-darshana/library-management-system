@@ -1,8 +1,5 @@
 package org.library.library_backend.Controller;
 
-
-import org.library.library_backend.Model.Book;
-import org.library.library_backend.Model.Category;
 import org.library.library_backend.Model.Fine;
 import org.library.library_backend.Service.FineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,27 +35,20 @@ public class FineController {
         }
     }
 
+
+    @PostMapping("/checkout/{checkoutId}/calculate")
+    public ResponseEntity<Fine> calculateFineForCheckout(@PathVariable Long checkoutId) {
+        try {
+            Fine fine = fineService.calculateFineForCheckout(checkoutId);
+            return ResponseEntity.ok(fine);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Fine> addFine(@RequestBody Fine fine) {
         Fine createdFine = fineService.createFine(fine);
         return ResponseEntity.ok(createdFine);
     }
-
-//    @GetMapping("/book/{bookId}")
-//    public ResponseEntity<List<Fine>> getFinesByBook(@PathVariable Long bookId) {
-//        Book book = new Book();  // Assuming you fetch the book by ID
-//        book.setId(bookId);
-//        return ResponseEntity.ok(fineService.getFinesByBook(book));
-//    }
-
-    // Retrieve fines by category ID
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<Fine>> getFinesByCategory(@PathVariable Long categoryId) {
-        Category category = new Category(1L, "Fantasy");  // Assuming you fetch the category by ID
-        category.setId(categoryId);
-        return ResponseEntity.ok(fineService.getFinesByCategory(category));
-    }
-
-
 }
-
