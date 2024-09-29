@@ -27,7 +27,4 @@ public class Category {
     public Category(long category_id, String Category) {
     }
 
-
-    public void setId(Long categoryId) {
-    }
 }

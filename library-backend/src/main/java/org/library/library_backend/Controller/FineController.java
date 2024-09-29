@@ -55,7 +55,6 @@ public class FineController {
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<Fine>> getFinesByCategory(@PathVariable Long categoryId) {
         Category category = new Category(1L, "Fantasy");  // Assuming you fetch the category by ID
-        category.setId(categoryId);
         return ResponseEntity.ok(fineService.getFinesByCategory(category));
     }
 
