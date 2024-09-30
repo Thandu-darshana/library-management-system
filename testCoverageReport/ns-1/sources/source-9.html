@@ -1,0 +1,88 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CheckoutService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.library.library_backend.Service</a>
+</div>
+
+<h1>Coverage Summary for Class: CheckoutService (org.library.library_backend.Service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CheckoutService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.library.library_backend.Service;
+&nbsp;
+&nbsp;import org.library.library_backend.Model.Checkout;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+&nbsp;public interface CheckoutService {
+&nbsp;    public ResponseEntity&lt;Checkout&gt; checkoutBook(Long bookId, Long memberId, LocalDate dueDate);
+&nbsp;
+&nbsp;    public ResponseEntity&lt;Checkout&gt; returnBook(Long checkoutId);
+&nbsp;
+&nbsp;    public ResponseEntity&lt;List&lt;Checkout&gt;&gt; getActiveCheckouts();
+&nbsp;
+&nbsp;    public ResponseEntity&lt;List&lt;Checkout&gt;&gt;getOverdueCheckouts();
+&nbsp;
+&nbsp;    public ResponseEntity&lt;Checkout&gt; getCheckoutById(Long checkoutId);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-09-30 21:34</div>
+</div>
+</body>
+</html>

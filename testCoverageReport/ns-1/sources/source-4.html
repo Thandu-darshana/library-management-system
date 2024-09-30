@@ -1,0 +1,217 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CheckoutServiceImplementation</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.library.library_backend.Service</a>
+</div>
+
+<h1>Coverage Summary for Class: CheckoutServiceImplementation (org.library.library_backend.Service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CheckoutServiceImplementation</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.7%
+  </span>
+  <span class="absValue">
+    (36/43)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.library.library_backend.Service;
+&nbsp;
+&nbsp;import org.library.library_backend.Model.Book;
+&nbsp;import org.library.library_backend.Model.Checkout;
+&nbsp;import org.library.library_backend.Model.CheckoutStatus;
+&nbsp;import org.library.library_backend.Model.Member;
+&nbsp;import org.library.library_backend.Repo.BookRepo;
+&nbsp;import org.library.library_backend.Repo.CheckoutRepo;
+&nbsp;import org.library.library_backend.Repo.MemberRepo;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class CheckoutServiceImplementation implements CheckoutService{</b>
+&nbsp;    @Autowired
+&nbsp;    private CheckoutRepo checkoutRepo;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private BookRepo bookRepo;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private MemberRepo memberRepo;
+&nbsp;    @Override
+&nbsp;    public ResponseEntity&lt;Checkout&gt; checkoutBook(Long bookId, Long memberId, LocalDate dueDate) {
+<b class="fc">&nbsp;        Book book = bookRepo.findById(bookId).orElse(null);</b>
+<b class="fc">&nbsp;        if (book == null) {</b>
+<b class="fc">&nbsp;            return new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND); // Book not found</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Member member = memberRepo.findById(memberId).orElse(null);</b>
+<b class="fc">&nbsp;        if (member == null) {</b>
+<b class="fc">&nbsp;            return new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND); // Member not found</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (book.getCopies() &lt;= 0) {</b>
+<b class="fc">&nbsp;            return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST); // No copies available for this book</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Checkout checkout = new Checkout();</b>
+<b class="fc">&nbsp;        checkout.setBook(book);</b>
+<b class="fc">&nbsp;        checkout.setMember(member);</b>
+<b class="fc">&nbsp;        checkout.setBorrowedOn(LocalDate.now());</b>
+&nbsp;        // Set due date as 2 weeks from now
+<b class="fc">&nbsp;        checkout.setDueDate(dueDate != null ? dueDate:LocalDate.now().plusWeeks(2));</b>
+<b class="fc">&nbsp;        checkout.setStatus(CheckoutStatus.BORROWED);</b>
+&nbsp;
+&nbsp;        // Decrease available copies
+<b class="fc">&nbsp;        book.setCopies(book.getCopies() - 1);</b>
+<b class="fc">&nbsp;        bookRepo.save(book);</b>
+&nbsp;
+<b class="fc">&nbsp;        Checkout savedCheckout = checkoutRepo.save(checkout);</b>
+<b class="fc">&nbsp;        return new ResponseEntity&lt;&gt;(savedCheckout, HttpStatus.CREATED);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ResponseEntity&lt;Checkout&gt; returnBook(Long checkoutId) {
+<b class="fc">&nbsp;        Optional&lt;Checkout&gt; checkoutOptional = checkoutRepo.findById(checkoutId);</b>
+<b class="fc">&nbsp;        if (!checkoutOptional.isPresent()) {</b>
+<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Checkout checkout = checkoutOptional.get();</b>
+<b class="fc">&nbsp;        if (checkout.getStatus() == CheckoutStatus.RETURNED) {</b>
+<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Mark the book as returned
+<b class="fc">&nbsp;        checkout.setStatus(CheckoutStatus.RETURNED);</b>
+&nbsp;
+&nbsp;        // Increment the number of available copies for the book
+<b class="fc">&nbsp;        Book book = checkout.getBook();</b>
+<b class="fc">&nbsp;        book.setCopies(book.getCopies() + 1);</b>
+&nbsp;
+&nbsp;        // Save the updated checkout and book
+<b class="fc">&nbsp;        checkoutRepo.save(checkout);</b>
+<b class="fc">&nbsp;        bookRepo.save(book);</b>
+&nbsp;
+<b class="fc">&nbsp;        return new ResponseEntity&lt;&gt;(checkout, HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ResponseEntity&lt;List&lt;Checkout&gt;&gt; getActiveCheckouts() {
+<b class="fc">&nbsp;        List&lt;Checkout&gt; activeCheckouts = checkoutRepo.findAllByStatus(CheckoutStatus.BORROWED);</b>
+<b class="fc">&nbsp;        if (activeCheckouts.isEmpty()) {</b>
+<b class="fc">&nbsp;            return new ResponseEntity&lt;&gt;(HttpStatus.NO_CONTENT);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return new ResponseEntity&lt;&gt;(activeCheckouts, HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ResponseEntity&lt;List&lt;Checkout&gt;&gt;getOverdueCheckouts() {
+<b class="fc">&nbsp;        List&lt;Checkout&gt; overdueCheckouts = checkoutRepo.findOverdueCheckouts(LocalDate.now());</b>
+<b class="fc">&nbsp;        if (overdueCheckouts.isEmpty()) {</b>
+<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(HttpStatus.NO_CONTENT);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return new ResponseEntity&lt;&gt;(overdueCheckouts, HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ResponseEntity&lt;Checkout&gt; getCheckoutById(Long checkoutId) {
+<b class="nc">&nbsp;        Checkout checkout = checkoutRepo.findById(checkoutId).orElse(null);</b>
+<b class="nc">&nbsp;        if (checkout == null) {</b>
+<b class="nc">&nbsp;            return new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND); // Checkout record not found</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(checkout, HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-09-30 21:34</div>
+</div>
+</body>
+</html>

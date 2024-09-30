@@ -21,13 +21,5 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "category")
-    private List<Fine> fines;
 
-    public Category(long category_id, String Category) {
-    }
-
-
-    public void setId(Long categoryId) {
-    }
 }

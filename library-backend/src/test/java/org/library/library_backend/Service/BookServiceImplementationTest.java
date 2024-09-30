@@ -28,6 +28,7 @@ import static org.mockito.Mockito.*;
 
 
 
+@ExtendWith(MockitoExtension.class)
 public class BookServiceImplementationTest {
 
     @Mock
@@ -49,32 +50,40 @@ public class BookServiceImplementationTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+        author = new Author();
+        author.setName("Author Name");
 
-        // Create sample data
-        author = new Author(1L, "J.K. Rowling");
-        category = new Category(1L, "Fantasy");
-        book = new Book(1L, "Harry Potter", author, category, "1234567890", LocalDate.now(), true, 5, new ArrayList<>());
+        category = new Category();
+        category.setName("Category Name");
+
+        book = new Book();
+        book.setBook_id(1L);
+        book.setTitle("Test Book");
+        book.setAuthor(author);
+        book.setCategory(category);
+        book.setIsbn("1234567890");
+        book.setAdded_on(LocalDate.now());
+        book.setAvailable(true);
+
     }
 
     @Test
     public void addBookTest() {
-        // Mocking the repository methods for the test
-        when(authorRepo.findByName(anyString())).thenReturn(Optional.empty());
+        when(authorRepo.findByName(author.getName())).thenReturn(Optional.empty());
         when(authorRepo.save(any(Author.class))).thenReturn(author);
-        when(categoryRepo.findByName(anyString())).thenReturn(Optional.empty());
+        when(categoryRepo.findByName(category.getName())).thenReturn(Optional.empty());
         when(categoryRepo.save(any(Category.class))).thenReturn(category);
         when(bookRepo.save(any(Book.class))).thenReturn(book);
 
-        // Call the addBook method
         ResponseEntity<Book> response = bookService.addBook(book);
 
-        // Verify the response and interactions
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(book, response.getBody());
+        assertNotNull(response.getBody());
+        assertEquals("Test Book", response.getBody().getTitle());
         verify(authorRepo, times(1)).save(any(Author.class));
         verify(categoryRepo, times(1)).save(any(Category.class));
         verify(bookRepo, times(1)).save(any(Book.class));
+
     }
     @Test
     public void GetAllBooksTest() {
@@ -86,8 +95,9 @@ public class BookServiceImplementationTest {
         ResponseEntity<List<Book>> response = bookService.getAllBooks();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
-        assertEquals(book, response.getBody().get(0));
+
     }
 
     @Test
@@ -98,18 +108,19 @@ public class BookServiceImplementationTest {
 
     }
     @Test
-    public void testGetBookById_Success() {
+    public void GetBookByIdTest() {
         when(bookRepo.findById(anyLong())).thenReturn(Optional.of(book));
 
         ResponseEntity<Book> response = bookService.getBookById(1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(book, response.getBody());
+        assertNotNull(response.getBody());
+        assertEquals("Test Book", response.getBody().getTitle());
     }
 
     @Test
-    public void testGetBookById_NotFound() {
-        when(bookRepo.findById(anyLong())).thenReturn(Optional.empty());
+    public void GetBookById_NotFoundTest() {
+        when(bookRepo.findById(1L)).thenReturn(Optional.empty());
 
         ResponseEntity<Book> response = bookService.getBookById(1L);
 
@@ -117,22 +128,39 @@ public class BookServiceImplementationTest {
     }
 
     @Test
-    public void testUpdateBookById() {
-        // Updated book information
-        Book updatedBook = new Book(1L, "Harry Potter and the Chamber of Secrets", author, category, "0987654321", LocalDate.now(), true, 5, new ArrayList<>());
+    public void UpdateBookByIdTest() {
+        when(bookRepo.findById(1L)).thenReturn(Optional.of(book));
+        when(authorRepo.findByName(author.getName())).thenReturn(Optional.of(author));
+        when(categoryRepo.findByName(category.getName())).thenReturn(Optional.of(category));
+        when(bookRepo.save(any(Book.class))).thenReturn(book);
 
-        // Mock the repository calls
-        when(bookRepo.findById(anyLong())).thenReturn(Optional.of(book)); // Existing book
-        when(authorRepo.findByName(anyString())).thenReturn(Optional.of(author)); // Author exists
-        when(categoryRepo.findByName(anyString())).thenReturn(Optional.of(category)); // Category exists
-        when(bookRepo.save(any(Book.class))).thenReturn(updatedBook); // Mock save
+        Book updatedBook = new Book();
+        updatedBook.setTitle("Updated Title");
+        updatedBook.setAuthor(author);
+        updatedBook.setCategory(category);
+        updatedBook.setIsbn("0987654321");
+        updatedBook.setAdded_on(LocalDate.now());
+        updatedBook.setAvailable(true);
 
-        // Call the service method
         ResponseEntity<Book> response = bookService.updateBookById(1L, updatedBook);
 
-        // Assert the response
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(updatedBook, response.getBody());
+        assertNotNull(response.getBody());
+        assertEquals("Updated Title", response.getBody().getTitle());
+        verify(bookRepo, times(1)).save(any(Book.class));
+
+    }
+    @Test
+    public void UpdateBookById_NotFoundTest(){
+        when(bookRepo.findById(1L)).thenReturn(Optional.empty());
+
+        Book updatedBook = new Book();
+        updatedBook.setTitle("Updated Title");
+
+        ResponseEntity<Book> response = bookService.updateBookById(1L, updatedBook);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        verify(bookRepo, times(0)).save(any(Book.class));
     }
     @Test
     public void testDeleteBookById_Success() {
