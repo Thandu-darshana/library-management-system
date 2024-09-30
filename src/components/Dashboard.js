@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -12,7 +13,6 @@ import DemoPageContent from './DemoPageContent';  // Import the DemoPageContent 
 
 
 import AllBooks from './AllBooks';
-;
 
 const demoTheme = createTheme({
   cssVariables: {
@@ -31,32 +31,6 @@ const demoTheme = createTheme({
 });
 
 function DashboardLayoutNavigationNested() {
-  const [pathname, setPathname] = React.useState('/books/all-books');
-
-  const renderPageContent = () => {
-    switch (pathname) {
-      case '/books/all-books':
-        return <AllBooks />;
-      // case '/books/available-books':
-      //   return <AvailableBooks />;
-      // case '/books/borrowed-books':
-      //   return <BorrowedBooks />;
-      // case '/books/add-books':
-      //   return <AddBook />;
-      // Add other cases for authors, categories, etc.
-      default:
-        return <div>Select a page</div>;
-    }
-  };
-
-  const router = React.useMemo(() => {
-    return {
-      pathname,
-      searchParams: new URLSearchParams(),
-      navigate: (path) => setPathname(String(path)),
-    };
-  }, [pathname]);
-
   return (
     <AppProvider
       branding={{
@@ -70,11 +44,15 @@ function DashboardLayoutNavigationNested() {
           children: [
             {
               segment: 'all-books',
-              title: 'All Books',
+              title: (
+                <Link to="/dashboard/books/allBooks">View All Books</Link> // Link to internal route
+              ),
             },
             {
               segment: 'available-books',
-              title: 'Available Books',
+              title: (
+                <Link to="/dashboard/books/availableBooks">View Available Books</Link> // Link for available books
+              ),
             },
             {
               segment: 'borrowed-books',
@@ -154,11 +132,15 @@ function DashboardLayoutNavigationNested() {
           icon: <BarChartIcon />,
         },
       ]}
-      router={router}
       theme={demoTheme}
     >
       <DashboardLayout>
-        <DemoPageContent pathname={router.pathname} />
+        {/* Use Routes to switch between different dashboard content */}
+        <Routes>
+          <Route path="/books/allBooks" element={<AllBooks />} />
+          {/* Add more routes here as needed */}
+          <Route path="/" element={<DemoPageContent pathname="/dashboard" />} />
+        </Routes>
       </DashboardLayout>
     </AppProvider>
   );
