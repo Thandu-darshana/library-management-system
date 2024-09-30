@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CheckoutServiceImplementation implements CheckoutService{
@@ -46,7 +47,7 @@ public class CheckoutServiceImplementation implements CheckoutService{
         checkout.setMember(member);
         checkout.setBorrowedOn(LocalDate.now());
         // Set due date as 2 weeks from now
-        checkout.setDueDate(LocalDate.now().plusWeeks(2));
+        checkout.setDueDate(dueDate != null ? dueDate:LocalDate.now().plusWeeks(2));
         checkout.setStatus(CheckoutStatus.BORROWED);
 
         // Decrease available copies
@@ -59,25 +60,28 @@ public class CheckoutServiceImplementation implements CheckoutService{
 
     @Override
     public ResponseEntity<Checkout> returnBook(Long checkoutId) {
-        Checkout checkout = checkoutRepo.findById(checkoutId).orElse(null);
-        if (checkout == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Checkout record not found
+        Optional<Checkout> checkoutOptional = checkoutRepo.findById(checkoutId);
+        if (!checkoutOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if (checkout.getStatus() != CheckoutStatus.BORROWED) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Book is not currently borrowed
+        Checkout checkout = checkoutOptional.get();
+        if (checkout.getStatus() == CheckoutStatus.RETURNED) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        checkout.setReturnedOn(LocalDate.now());
+        // Mark the book as returned
         checkout.setStatus(CheckoutStatus.RETURNED);
 
-        // Increment available copies
+        // Increment the number of available copies for the book
         Book book = checkout.getBook();
         book.setCopies(book.getCopies() + 1);
+
+        // Save the updated checkout and book
+        checkoutRepo.save(checkout);
         bookRepo.save(book);
 
-        Checkout savedCheckout = checkoutRepo.save(checkout);
-        return new ResponseEntity<>(savedCheckout, HttpStatus.OK);
+        return new ResponseEntity<>(checkout, HttpStatus.OK);
     }
 
     @Override

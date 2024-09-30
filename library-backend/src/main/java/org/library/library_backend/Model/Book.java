@@ -38,4 +38,7 @@ public class Book {
     @Column(nullable = false)
     private int copies;
 
+    @OneToMany(mappedBy = "book")
+    private List<Checkout> checkouts;
+
 }
