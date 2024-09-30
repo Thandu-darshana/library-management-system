@@ -1,0 +1,85 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > AuthorService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.library.library_backend.Service</a>
+</div>
+
+<h1>Coverage Summary for Class: AuthorService (org.library.library_backend.Service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">AuthorService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.library.library_backend.Service;
+&nbsp;
+&nbsp;import org.library.library_backend.Model.Author;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+&nbsp;public interface AuthorService {
+&nbsp;    public ResponseEntity&lt;Author&gt; addAuthor(Author author);
+&nbsp;    public ResponseEntity&lt;Author&gt; updateAuthorById(Long id, Author newAuthorData);
+&nbsp;    public ResponseEntity&lt;HttpStatus&gt; deleteAuthorById(Long author_id);
+&nbsp;    public ResponseEntity&lt;List&lt;Author&gt;&gt; getAllAuthors();
+&nbsp;    public ResponseEntity&lt;Author&gt; getAuthorById(Long author_id);
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-09-30 21:34</div>
+</div>
+</body>
+</html>
