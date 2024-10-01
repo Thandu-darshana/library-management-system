@@ -1,7 +1,3 @@
-Here’s a basic `README.md` file template for your project. You can modify it further as per your requirements:
-
----
-
 # Library Management System
 
 A full-stack library management system built with **React** (frontend) and **Spring Boot** (backend). The system allows users to manage books, authors, categories, and checkouts, as well as view reports. The project also includes features such as adding, editing, and deleting book entries, along with the ability to track availability and copies.
