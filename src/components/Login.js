@@ -11,7 +11,7 @@ function Login() {
     e.preventDefault();
 
    
-    if (username === '1' && password === '1') {
+    if (username === 'user01@gmail.com' && password === '1') {
       navigate('/dashboard');
     } else {
       alert('Invalid username or password');
