@@ -90,46 +90,6 @@ The **Library Management System** is a web-based application designed to help ma
      npm start
      ```
 
-### H2 Database:
-
-To access the H2 in-memory database used for development:
-
-- URL: `http://localhost:8080/h2-console`
-- JDBC URL: `jdbc:h2:mem:testdb`
-- Username: `sa`
-- Password: `<leave empty>`
-
-## Usage
-
-1. **Login**: Start by logging in using Firebase Authentication.
-2. **Dashboard**: Access the main dashboard to manage books, authors, and categories.
-3. **Add Books**: Add new books, specifying details like title, author, category, and number of copies.
-4. **Edit/Delete Books**: Update or remove existing book entries from the system.
-5. **View Reports**: View detailed reports and analytics regarding the library's operations.
-
-## API Documentation
-
-### GET /books
-Retrieve a list of all books.
-
-### POST /books
-Add a new book.
-
-### PUT /books/{id}
-Edit an existing book.
-
-### DELETE /books/{id}
-Delete a book.
-
-Refer to the backend source code for more detailed API documentation or use tools like Postman to test the API.
-
-## Contributing
-
-1. **Fork the repository**
-2. **Create a new branch** (`git checkout -b feature/new-feature`)
-3. **Make your changes and commit them** (`git commit -m 'Add new feature'`)
-4. **Push to the branch** (`git push origin feature/new-feature`)
-5. **Open a pull request**
 
 ## License
 
@@ -137,6 +97,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-### Screenshots and Additional Documentation:
-
-Feel free to add more detailed instructions, code snippets, and visuals as needed for future readers or collaborators.
